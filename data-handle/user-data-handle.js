@@ -7,14 +7,18 @@ user.login = function(req,res,connector){
 }
 
 user.register = function(req,res,connector){
-	  let full_name = req.body.full_name;
-	  let email = req.body.email;
-	  let password = req.body.password;
-	  let mobile = req.body.mobile;
-	  let type = req.body.type;
-	  let city = req.body.city;
-	  let country = req.body.country;
-	  let gender = req.body.gender;
+
+      let full_name = req.body.full_name;
+      let email = req.body.email;
+      let password = req.body.password;
+      let mobile = req.body.mobile;
+      let type = req.body.type;
+      let city = req.body.city;
+      let country = req.body.country;
+      let gender = req.body.gender;
+      let pincode = req.body.pincode;
+      let image = req.body.image;
+      let address = req.body.address;
 
       req.checkBody('full_name','Full name can\' be empty').notEmpty();
       req.checkBody('full_name','Full name must be alphabets').isAlpha();
@@ -32,13 +36,13 @@ user.register = function(req,res,connector){
       	 res.send({msg:errors && errors[0]?errors[0]['msg']:'Provide correct information',status:false});
       }
       else{
-      	 let query = 'INSERT INTO users (fullname,email,password,mobile,type,gender,city,country) values (?,?,?,?,?,?,?,?)';
-	     connector.connection.query(query,[full_name,email,password,mobile,type,gender,city,country],(err,result,fields)=>{
+      	 let query = 'INSERT INTO users (fullname,email,password,mobile,type,gender,city,country,pincode,image,address) values (?,?,?,?,?,?,?,?,?,?,?)';
+	     connector.connection.query(query,[full_name,email,password,mobile,type,gender,city,country,pincode,image,address],(err,result,fields)=>{
 	         if(err){
-		  		res.send({msg:'This email already register',status:false});
+  			    res.send({msg:'This email already register',status:false,err:err});
 		  	 }
 		  	 else{
-		  		res.send({msg:'Successfully register',status:true});
+	  		    res.send({msg:'Successfully register',status:true});
 		  	 }
 	     });
 
